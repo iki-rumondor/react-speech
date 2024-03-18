@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { TopbarLandingPage } from "./Topbar";
-import "/src/assets/landing/css/theme.css";
 import { Hero } from "./Hero";
 import {
   Avatar,
@@ -23,11 +22,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { fetchAPI } from "../../../utils/Fetching";
+import { fetchAPI, postAPI } from "../../../utils/Fetching";
 import toast from "react-hot-toast";
 import { useLoading } from "../../../context/LoadingContext";
 import { Folder, RecordVoiceOver } from "@mui/icons-material";
 import { orange } from "@mui/material/colors";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -36,7 +37,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export const Home = () => {
   const { setIsLoading } = useLoading();
   const [classes, setClasses] = useState(null);
+  const nav = useNavigate();
+
   const [open, setOpen] = useState(false);
+  const defaultValue = {
+    email: "",
+    password: "",
+  };
+
+  const [values, setValues] = useState(defaultValue);
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -58,17 +71,50 @@ export const Home = () => {
     }
   };
 
-  const handleDaftar = () => {
-    const role = sessionStorage.getItem("role");
-    if(!role){
-      handleOpen()
-      return
+  const handleLogin = async () => {
+    try {
+      setIsLoading(true);
+      const res = await postAPI("/verify-user", "POST", values);
+      const uuid = jwtDecode(res.data.token).uuid;
+      const userData = await fetchAPI(`/user/${uuid}`);
+      sessionStorage.setItem("role", userData.data.role);
+      sessionStorage.setItem("uuid", userData.data.uuid);
+      sessionStorage.setItem("token", res.data.token);
+      nav("/home");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleSubmit = async (uuid) => {
+    try {
+      setIsLoading(true);
+      const res = await postAPI("/class/register", "POST", {
+        class_uuid: uuid,
+      });
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDaftar = (uuid) => {
+    const role = sessionStorage.getItem("role");
+    if (!role) {
+      handleOpen();
+      return;
+    }
+
     if (role != "MAHASISWA") {
-      toast.error("Yang Dapat Mendaftar Kelas Hanya Mahasiswa")
-      return
-    } 
-    console.log("tidak");
+      toast.error("Yang Dapat Mendaftar Kelas Hanya Mahasiswa");
+      return;
+    }
+
+    handleSubmit(uuid);
   };
 
   useEffect(() => {
@@ -76,7 +122,12 @@ export const Home = () => {
   }, []);
   return (
     <>
-      <TopbarLandingPage />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="/src/assets/landing/css/theme.css"
+      />
+      {/* <TopbarLandingPage /> */}
       <Hero />
       <section>
         <div className="container">
@@ -124,7 +175,9 @@ export const Home = () => {
                       }}
                     >
                       <Button
-                        onClick={handleDaftar}
+                        onClick={() => {
+                          handleDaftar(item.uuid);
+                        }}
                         variant="contained"
                         size="small"
                         sx={{
@@ -183,8 +236,8 @@ export const Home = () => {
             margin="normal"
             required
             fullWidth
-            // value={values.email}
-            // onChange={handleChange}
+            value={values.email}
+            onChange={handleChange}
             id="email"
             label="Alamat Email"
             name="email"
@@ -194,8 +247,8 @@ export const Home = () => {
             margin="normal"
             required
             fullWidth
-            // value={values.password}
-            // onChange={handleChange}
+            value={values.password}
+            onChange={handleChange}
             name="password"
             label="Password"
             type="password"
@@ -203,6 +256,7 @@ export const Home = () => {
             autoComplete="new-password"
           />
           <Button
+            onClick={handleLogin}
             type="submit"
             fullWidth
             variant="contained"

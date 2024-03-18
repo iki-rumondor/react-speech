@@ -11,6 +11,8 @@ import { AdminDashboard } from "./pages/admin/Dashboard";
 import { VerifyTeachers } from "./pages/admin/process/VerifyTeacher";
 import { MasterClass } from "./pages/teacher/master/class/MasterClass";
 import { Home } from "./pages/landing/Home";
+import { RequestClassStudent } from "./pages/student/RequestClassStudent";
+import { RequestClass } from "./pages/teacher/RequestClass";
 
 export const Router = () => {
   return (
@@ -25,6 +27,11 @@ export const Router = () => {
           <Route element={<RoleAuth name={"DOSEN"} />}>
             <Route path="/teacher/dashboard" Component={AdminDashboard} />
             <Route path="/teacher/class" element={<MasterClass />} />
+            <Route path="/teacher/class/request" element={<RequestClass />} />
+          </Route>
+          <Route element={<RoleAuth name={"MAHASISWA"} />}>
+            <Route path="/student/dashboard" Component={AdminDashboard} />
+            <Route path="/student/request-classes" element={<RequestClassStudent />} />
           </Route>
           <Route path="/home" element={<HomeController />} />
           <Route path="/logout" element={<Logout />} />

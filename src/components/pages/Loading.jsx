@@ -8,9 +8,9 @@ export default function Loading() {
 		<div className="container-spinner">
 
 		<div className="spinner-container">
-			<div className="spinner-border" role="status">
 				<CircularProgress sx={{ color:"#ffff" }}/>
-			</div>
+			{/* <div className="spinner-border" role="status">
+			</div> */}
 		</div>
 		</div>
 	);

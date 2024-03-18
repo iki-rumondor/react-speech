@@ -29,6 +29,7 @@ import styled from "@emotion/styled";
 import { getUserRole } from "../../utils/Helpers";
 import { AdminLinks } from "./links/AdminLinks";
 import { TeacherLinks } from "./links/TeacherLinks";
+import { StudentLinks } from "./links/StudentLinks";
 
 function Copyright(props) {
   return (
@@ -107,11 +108,15 @@ export const DashboardLayout = ({ name, children }) => {
   useEffect(() => {
     if (role == "ADMIN") {
       setListItems(<AdminLinks />);
+      return;
     }
 
     if (role == "DOSEN") {
       setListItems(<TeacherLinks />);
+      return;
     }
+
+    setListItems(<StudentLinks />);
   }, []);
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -144,11 +149,11 @@ export const DashboardLayout = ({ name, children }) => {
             >
               {name}
             </Typography>
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

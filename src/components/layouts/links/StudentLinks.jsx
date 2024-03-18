@@ -7,18 +7,13 @@ import {
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
-export const TeacherLinks = () => {
+export const StudentLinks = () => {
   const { pathname } = useLocation();
   const links = [
-    { name: "Dashboard", to: "/teacher/dashboard", icon: <Dashboard /> },
-    {
-      name: "Kelas",
-      to: "/teacher/class",
-      icon: <ClassRounded />,
-    },
+    { name: "Dashboard", to: "/student/dashboard", icon: <Dashboard /> },
     {
       name: "Pengajuan Kelas",
-      to: "/teacher/class/request",
+      to: "/student/request-classes",
       icon: <ClassRounded />,
     },
     {

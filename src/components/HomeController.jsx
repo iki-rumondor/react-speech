@@ -14,6 +14,9 @@ export const HomeController = () => {
       nav("/teacher/dashboard");
       return;
     }
+
+    nav("/student/dashboard");
+    return;
   }, []);
 
   return;

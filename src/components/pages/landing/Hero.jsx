@@ -17,6 +17,9 @@ export const Hero = () => {
             </p>
             <div className="text-center text-md-start">
               <Link to={"/signin"} className="btn btn-warning me-3">
+                Dashboard
+              </Link>
+              <Link to={"/signin"} className="btn btn-warning me-3">
                 Masuk
               </Link>
               <Link to={"/signup"} className="btn btn-dark me-3">
