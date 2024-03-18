@@ -1,7 +1,7 @@
 import { Box, TextField, Typography } from "@mui/material";
 import React from "react";
 
-export const AddClassForm = ({ values, onChange }) => {
+export const AddClassForm = ({ title, values, onChange }) => {
   return (
     <Box
       component="form"
@@ -10,7 +10,7 @@ export const AddClassForm = ({ values, onChange }) => {
       }}
     >
       <Typography component={"h2"} variant="h5" marginBottom={2} marginLeft={1}>
-        Tambah Kelas
+        {title}
       </Typography>
       <TextField
         fullWidth
