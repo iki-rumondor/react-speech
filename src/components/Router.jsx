@@ -13,6 +13,9 @@ import { MasterClass } from "./pages/teacher/master/class/MasterClass";
 import { Home } from "./pages/landing/Home";
 import { RequestClassStudent } from "./pages/student/RequestClassStudent";
 import { RequestClass } from "./pages/teacher/RequestClass";
+import { DetailTeacherClass } from "./pages/teacher/DetailClass";
+import { VideoPages } from "./pages/video/Index";
+import { ListVideos } from "./pages/teacher/ListVideos";
 
 export const Router = () => {
   return (
@@ -28,6 +31,8 @@ export const Router = () => {
             <Route path="/teacher/dashboard" Component={AdminDashboard} />
             <Route path="/teacher/class" element={<MasterClass />} />
             <Route path="/teacher/class/request" element={<RequestClass />} />
+            <Route path="/teacher/class/videos" element={<ListVideos />} />
+            <Route path="/videos/play/:uuid" element={<VideoPages />} />
           </Route>
           <Route element={<RoleAuth name={"MAHASISWA"} />}>
             <Route path="/student/dashboard" Component={AdminDashboard} />

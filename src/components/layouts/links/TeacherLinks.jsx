@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { ListItemsDropdown } from "../items/ListItems";
 
 export const TeacherLinks = () => {
   const { pathname } = useLocation();
@@ -22,12 +23,24 @@ export const TeacherLinks = () => {
       icon: <ClassRounded />,
     },
     {
-      name: "Logout",
-      to: "/logout",
-      icon: <Logout />,
+      name: "Video Pembelajaran",
+      to: "/teacher/class/videos",
+      icon: <ClassRounded />,
     },
   ];
 
+  const dropLinks = [
+    {
+      name: "Kelas Saya",
+      icon: <ClassRounded />,
+      items: [
+        {
+          name: "Detail Kelas",
+          to: "/teacher/class/detail",
+        },
+      ],
+    },
+  ];
   return (
     <>
       {links.map((item, idx) => (
@@ -40,6 +53,20 @@ export const TeacherLinks = () => {
           <ListItemText primary={item.name} />
         </ListItemButton>
       ))}
+      {/* {dropLinks.map((item, idx) => (
+        <ListItemsDropdown
+          key={idx}
+          icon={item.icon}
+          name={item.name}
+          items={item.items}
+        />
+      ))} */}
+      <ListItemButton href={"/logout"}>
+        <ListItemIcon>
+          <Logout />
+        </ListItemIcon>
+        <ListItemText primary={"Logout"} />
+      </ListItemButton>
     </>
   );
 };
