@@ -1,22 +1,14 @@
 import FullScreenDialog from "../../layouts/dialog/FullScreenDialog";
-import {
-  Card,
-  CardContent,
-  Divider,
-  Fab,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Divider, Fab, Grid, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 import { DetailTeacherClass } from "./DetailClass";
-import { VideoCard } from "../../layouts/cards/VideoCard";
 import { useEffect, useState } from "react";
-import { AddVideoForm } from "../../layouts/forms/AddVideoForm";
 import { Add } from "@mui/icons-material";
 import { useUtils } from "../../../context/UtilsContext";
 import { useLoading } from "../../../context/LoadingContext";
 import { fetchAPI, postFile } from "../../../utils/Fetching";
+import { BookCard } from "../../layouts/cards/BookCard";
+import { AddBookForm } from "../../layouts/forms/AddBookForm";
 
 const fabStyle = {
   position: "absolute",
@@ -24,7 +16,7 @@ const fabStyle = {
   right: 16,
 };
 
-export const ListVideos = () => {
+export const ListBooks = () => {
   const { classSelected } = useUtils();
   const { isSuccess, setIsLoading, setIsSuccess } = useLoading();
 
@@ -35,7 +27,7 @@ export const ListVideos = () => {
 
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
-  const [videos, setVideos] = useState(null);
+  const [data, setData] = useState(null);
   const [values, setValues] = useState(defaultValue);
 
   const handleOpen = () => {
@@ -55,8 +47,8 @@ export const ListVideos = () => {
   const handleLoad = async () => {
     try {
       setIsLoading(true);
-      const res = await fetchAPI(`/videos/classes/${classSelected}`);
-      setVideos(res.data);
+      const res = await fetchAPI(`/books/classes/${classSelected}`);
+      setData(res.data);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -67,12 +59,12 @@ export const ListVideos = () => {
   const handleClick = () => {
     handleOpen();
     if (!file) {
-      toast.error("Belum Terdapat Video");
+      toast.error("Belum Terdapat File Buku");
       return;
     }
 
     const formData = new FormData();
-    formData.append("video", file);
+    formData.append("book", file);
     formData.append("title", values.title);
     formData.append("description", values.description);
     formData.append("class_uuid", classSelected);
@@ -84,7 +76,7 @@ export const ListVideos = () => {
     try {
       setIsLoading(true);
       setIsSuccess(false);
-      const res = await postFile(`/videos`, "POST", formData);
+      const res = await postFile(`/books`, "POST", formData);
       setIsSuccess(true);
       setValues(defaultValue);
       toast.success(res.message);
@@ -102,7 +94,7 @@ export const ListVideos = () => {
   }, [classSelected, isSuccess]);
 
   return (
-    <DetailTeacherClass title={"List Video Pembelajaran"}>
+    <DetailTeacherClass title={"List Buku Pembelajaran"}>
       {classSelected && (
         <Fab
           sx={fabStyle}
@@ -115,15 +107,15 @@ export const ListVideos = () => {
       )}
 
       <Typography marginTop={4} variant="h5" gutterBottom>
-        List Video
+        List Buku
       </Typography>
       <Divider sx={{ marginY: 2 }} />
 
       <Grid container spacing={2} marginBottom={3}>
-        {videos &&
-          videos.map((video) => (
+        {data &&
+          data.map((video) => (
             <Grid key={video.uuid} item xs={12} md={6} lg={4}>
-              <VideoCard video={video} />
+              <BookCard book={video} />
             </Grid>
           ))}
       </Grid>
@@ -132,12 +124,12 @@ export const ListVideos = () => {
         open={open}
         handleSubmit={handleClick}
       >
-        <AddVideoForm
+        <AddBookForm
           file={file}
           handleChange={handleChange}
           handleFileChange={handleFileChange}
           values={values}
-          title={"Tambah Video Pembelajaran"}
+          title={"Tambah Buku Pembelajaran"}
         />
       </FullScreenDialog>
     </DetailTeacherClass>

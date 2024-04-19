@@ -1,12 +1,12 @@
 import {
+  BookOnlineOutlined,
   ClassRounded,
   Dashboard,
   Logout,
-  VerifiedUser,
+  Notes,
 } from "@mui/icons-material";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { ListItemsDropdown } from "../items/ListItems";
 
 export const TeacherLinks = () => {
   const { pathname } = useLocation();
@@ -26,6 +26,16 @@ export const TeacherLinks = () => {
       name: "Video Pembelajaran",
       to: "/teacher/class/videos",
       icon: <ClassRounded />,
+    },
+    {
+      name: "Buku",
+      to: "/teacher/class/books",
+      icon: <BookOnlineOutlined />,
+    },
+    {
+      name: "Catatan",
+      to: "/teacher/class/notes",
+      icon: <Notes />,
     },
   ];
 

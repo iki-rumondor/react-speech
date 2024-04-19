@@ -24,7 +24,7 @@ export const VideoCard = ({ video }) => {
       <Card>
         <CardActionArea
           component={Link}
-          to={`videos/${video.uuid}`}
+          to={`/videos/${video.uuid}`}
           target="__blank"
         >
           <CardMedia

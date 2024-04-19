@@ -2,6 +2,7 @@ import {
   ClassRounded,
   Dashboard,
   Logout,
+  Notes,
   VerifiedUser,
 } from "@mui/icons-material";
 import { Divider, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
@@ -16,6 +17,21 @@ export const StudentLinks = () => {
       name: "Pengajuan Kelas",
       to: "/student/request-classes",
       icon: <ClassRounded />,
+    },
+    {
+      name: "Video",
+      to: "/student/videos",
+      icon: <ClassRounded />,
+    },
+    {
+      name: "Buku",
+      to: "/student/books",
+      icon: <ClassRounded />,
+    },
+    {
+      name: "Catatan",
+      to: "/student/notes",
+      icon: <Notes />,
     },
   ];
 
@@ -44,9 +60,9 @@ export const StudentLinks = () => {
           <ListItemText primary={item.name} />
         </ListItemButton>
       ))}
-      {dropLinks.map((item, idx) => (
+      {/* {dropLinks.map((item, idx) => (
         <ListItemsDropdown key={idx} icon={item.icon} name={item.name} items={item.items} />
-      ))}
+      ))} */}
       <ListItemButton href={"/logout"}>
         <ListItemIcon>
           <Logout />

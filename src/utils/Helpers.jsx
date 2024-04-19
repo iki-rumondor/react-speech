@@ -58,15 +58,21 @@ export const filterTeachers = (filter, data) => {
   let result = data;
   if (filter == "verified") {
     result = data.filter((item) => {
-      return item.status;
+      return item.status == 2;
     });
   }
 
   if (filter == "unverified") {
     result = data.filter((item) => {
-      return !item.status;
+      return item.status == 1;
     });
   }
 
   return result;
 };
+
+const BACKEND_BASE_URL = "http://localhost:8080/api"
+
+export const getBackendUrl = () => {
+  return BACKEND_BASE_URL
+}

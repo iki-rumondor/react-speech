@@ -16,6 +16,12 @@ import { RequestClass } from "./pages/teacher/RequestClass";
 import { DetailTeacherClass } from "./pages/teacher/DetailClass";
 import { VideoPages } from "./pages/video/Index";
 import { ListVideos } from "./pages/teacher/ListVideos";
+import { ListBooks } from "./pages/teacher/ListBooks";
+import { BookView } from "./pages/book/Index";
+import { StudentVideos } from "./pages/student/ListVideos";
+import { StudentBooks } from "./pages/student/ListBooks";
+import { ListNotes } from "./pages/teacher/ListNotes";
+import { StudentNotes } from "./pages/student/ListNotes";
 
 export const Router = () => {
   return (
@@ -32,12 +38,21 @@ export const Router = () => {
             <Route path="/teacher/class" element={<MasterClass />} />
             <Route path="/teacher/class/request" element={<RequestClass />} />
             <Route path="/teacher/class/videos" element={<ListVideos />} />
-            <Route path="/videos/play/:uuid" element={<VideoPages />} />
+            <Route path="/teacher/class/books" element={<ListBooks />} />
+            <Route path="/teacher/class/notes" element={<ListNotes />} />
           </Route>
           <Route element={<RoleAuth name={"MAHASISWA"} />}>
             <Route path="/student/dashboard" Component={AdminDashboard} />
-            <Route path="/student/request-classes" element={<RequestClassStudent />} />
+            <Route
+              path="/student/request-classes"
+              element={<RequestClassStudent />}
+            />
+            <Route path="/student/videos" element={<StudentVideos />} />
+            <Route path="/student/books" element={<StudentBooks />} />
+            <Route path="/student/notes" element={<StudentNotes />} />
           </Route>
+          <Route path="/books/:file_name" element={<BookView />} />
+          <Route path="/videos/:uuid" element={<VideoPages />} />
           <Route path="/home" element={<HomeController />} />
           <Route path="/logout" element={<Logout />} />
         </Route>

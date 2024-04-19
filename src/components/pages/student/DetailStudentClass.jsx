@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Fab,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardMedia, Paper, Typography } from "@mui/material";
 import { SelectInput } from "../../layouts/input/SelectInput";
-import { Add } from "@mui/icons-material";
 import { useLoading } from "../../../context/LoadingContext";
 import toast from "react-hot-toast";
-import { fetchAPI, postFile } from "../../../utils/Fetching";
+import { fetchAPI } from "../../../utils/Fetching";
 import { useUtils } from "../../../context/UtilsContext";
 
-export const DetailTeacherClass = ({ title, children }) => {
-  const { isSuccess, setIsLoading, setIsSuccess } = useLoading();
+export const DetailStudentClass = ({ title, children }) => {
+  const { isSuccess, setIsLoading } = useLoading();
   const { classSelected, setClassSelected } = useUtils();
   const [classes, setClasses] = useState([]);
   const [detailClass, setDetailClass] = useState(null);
+  const userUuid = sessionStorage.getItem("uuid")
 
   const handleLoad = async () => {
     try {
       setIsLoading(true);
-      const res = await fetchAPI(`/classes`);
+      const res = await fetchAPI(`/classes/students/${userUuid}`);
       const items = [];
       res.data &&
         res.data.map((item) => {

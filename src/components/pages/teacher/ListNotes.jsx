@@ -1,7 +1,9 @@
 import FullScreenDialog from "../../layouts/dialog/FullScreenDialog";
 import {
+  Avatar,
   Card,
   CardContent,
+  CardHeader,
   Divider,
   Fab,
   Grid,
@@ -10,13 +12,13 @@ import {
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { DetailTeacherClass } from "./DetailClass";
-import { VideoCard } from "../../layouts/cards/VideoCard";
 import { useEffect, useState } from "react";
-import { AddVideoForm } from "../../layouts/forms/AddVideoForm";
 import { Add } from "@mui/icons-material";
 import { useUtils } from "../../../context/UtilsContext";
 import { useLoading } from "../../../context/LoadingContext";
-import { fetchAPI, postFile } from "../../../utils/Fetching";
+import { fetchAPI, postAPI } from "../../../utils/Fetching";
+import { AddNoteForm } from "../../layouts/forms/AddNoteForm";
+import moment from "moment";
 
 const fabStyle = {
   position: "absolute",
@@ -24,21 +26,20 @@ const fabStyle = {
   right: 16,
 };
 
-export const ListVideos = () => {
+export const ListNotes = () => {
   const { classSelected } = useUtils();
   const { isSuccess, setIsLoading, setIsSuccess } = useLoading();
-
   const defaultValue = {
     title: "",
-    description: "",
+    body: "",
   };
 
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState(null);
-  const [videos, setVideos] = useState(null);
+  const [notes, setNotes] = useState(null);
   const [values, setValues] = useState(defaultValue);
 
   const handleOpen = () => {
+    setValues({ ...values, class_uuid: classSelected });
     setOpen(!open);
   };
 
@@ -46,17 +47,11 @@ export const ListVideos = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  };
-
   const handleLoad = async () => {
     try {
       setIsLoading(true);
-      const res = await fetchAPI(`/videos/classes/${classSelected}`);
-      setVideos(res.data);
+      const res = await fetchAPI(`/notes/classes/${classSelected}`);
+      setNotes(res.data);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -64,27 +59,12 @@ export const ListVideos = () => {
     }
   };
 
-  const handleClick = () => {
-    handleOpen();
-    if (!file) {
-      toast.error("Belum Terdapat Video");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("video", file);
-    formData.append("title", values.title);
-    formData.append("description", values.description);
-    formData.append("class_uuid", classSelected);
-
-    handleSubmit(formData);
-  };
-
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async () => {
     try {
+      handleOpen();
       setIsLoading(true);
       setIsSuccess(false);
-      const res = await postFile(`/videos`, "POST", formData);
+      const res = await postAPI(`/notes`, "POST", values);
       setIsSuccess(true);
       setValues(defaultValue);
       toast.success(res.message);
@@ -102,7 +82,7 @@ export const ListVideos = () => {
   }, [classSelected, isSuccess]);
 
   return (
-    <DetailTeacherClass title={"List Video Pembelajaran"}>
+    <DetailTeacherClass title={"Daftar Catatan Pembelajaran"}>
       {classSelected && (
         <Fab
           sx={fabStyle}
@@ -114,30 +94,32 @@ export const ListVideos = () => {
         </Fab>
       )}
 
-      <Typography marginTop={4} variant="h5" gutterBottom>
-        List Video
-      </Typography>
-      <Divider sx={{ marginY: 2 }} />
-
-      <Grid container spacing={2} marginBottom={3}>
-        {videos &&
-          videos.map((video) => (
-            <Grid key={video.uuid} item xs={12} md={6} lg={4}>
-              <VideoCard video={video} />
-            </Grid>
-          ))}
-      </Grid>
+      {notes &&
+        notes.map((item) => (
+          <Card variant="outlined" sx={{ marginY: 2 }}>
+            <CardHeader
+              avatar={<Avatar></Avatar>}
+              title={item.title}
+              subheader={moment.unix(item.created_at / 1000).fromNow()}
+            />
+            <CardContent>
+              <Typography component={"div"}>
+                {item.body.split("\n").map((line, index) => (
+                  <div key={index}>{line}</div>
+                ))}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
       <FullScreenDialog
         handleClose={handleOpen}
         open={open}
-        handleSubmit={handleClick}
+        handleSubmit={handleSubmit}
       >
-        <AddVideoForm
-          file={file}
+        <AddNoteForm
           handleChange={handleChange}
-          handleFileChange={handleFileChange}
           values={values}
-          title={"Tambah Video Pembelajaran"}
+          title={"Tambah Catatan Pembelajaran"}
         />
       </FullScreenDialog>
     </DetailTeacherClass>

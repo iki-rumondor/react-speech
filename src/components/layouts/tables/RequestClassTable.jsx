@@ -48,7 +48,7 @@ export default function RequestClassTable({ data }) {
             <TableRow>
               <TableCell>No</TableCell>
               <TableCell>Nama Kelas</TableCell>
-              <TableCell>Nama Dosen</TableCell>
+              <TableCell>Nama Mahasiswa</TableCell>
               <TableCell>Mendaftar Pada</TableCell>
               <TableCell>Status</TableCell>
               {!student && <TableCell>Aksi</TableCell>}
