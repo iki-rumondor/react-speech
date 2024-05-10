@@ -1,24 +1,31 @@
 import FullScreenDialog from "../../layouts/dialog/FullScreenDialog";
 import {
   Avatar,
+  Button,
   Card,
   CardContent,
   CardHeader,
-  Divider,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Fab,
-  Grid,
-  Paper,
+  IconButton,
+  Menu,
+  MenuItem,
   Typography,
 } from "@mui/material";
 import toast from "react-hot-toast";
 import { DetailTeacherClass } from "./DetailClass";
 import { useEffect, useState } from "react";
-import { Add } from "@mui/icons-material";
+import { Add, MoreVert } from "@mui/icons-material";
 import { useUtils } from "../../../context/UtilsContext";
 import { useLoading } from "../../../context/LoadingContext";
-import { fetchAPI, postAPI } from "../../../utils/Fetching";
+import { deleteAPI, fetchAPI, postAPI } from "../../../utils/Fetching";
 import { AddNoteForm } from "../../layouts/forms/AddNoteForm";
 import moment from "moment";
+import { CommonDelete } from "../../layouts/dialog/CommonDelete";
 
 const fabStyle = {
   position: "absolute",
@@ -34,13 +41,38 @@ export const ListNotes = () => {
     body: "",
   };
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+
   const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const [notes, setNotes] = useState(null);
   const [values, setValues] = useState(defaultValue);
+
+  const [selectID, setSelectID] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   const handleOpen = () => {
     setValues({ ...values, class_uuid: classSelected });
     setOpen(!open);
+  };
+
+  const handleOpenEdit = () => {
+    setValues({ ...values, class_uuid: classSelected });
+    setOpenEdit(!openEdit);
+  };
+
+  const handleCloseEdit = () => {
+    setValues(defaultValue);
+    setOpenEdit(!openEdit);
   };
 
   const handleChange = (e) => {
@@ -75,6 +107,55 @@ export const ListNotes = () => {
     }
   };
 
+  const handleLoadNote = async () => {
+    try {
+      handleCloseMenu();
+      handleOpenEdit();
+      setIsLoading(true);
+      const res = await fetchAPI(`/notes/${selectID}`);
+      setValues({
+        class_uuid: classSelected,
+        title: res.data.title,
+        body: res.data.body,
+      });
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      handleOpenEdit();
+      setIsLoading(true);
+      setIsSuccess(false);
+      const res = await postAPI(`/notes/${selectID}`, "PUT", values);
+      setIsSuccess(true);
+      setValues(defaultValue);
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      setOpenDelete(false);
+      setIsLoading(true);
+      setIsSuccess(false);
+      const res = await deleteAPI(`/notes/${selectID}`);
+      setIsSuccess(true);
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (classSelected) {
       handleLoad();
@@ -96,11 +177,23 @@ export const ListNotes = () => {
 
       {notes &&
         notes.map((item) => (
-          <Card variant="outlined" sx={{ marginY: 2 }}>
+          <Card key={item.uuid} variant="outlined" sx={{ marginY: 2 }}>
             <CardHeader
               avatar={<Avatar></Avatar>}
               title={item.title}
               subheader={moment.unix(item.created_at / 1000).fromNow()}
+              action={
+                <>
+                  <IconButton
+                    onClick={(e) => {
+                      handleClick(e);
+                      setSelectID(item.uuid);
+                    }}
+                  >
+                    <MoreVert />
+                  </IconButton>
+                </>
+              }
             />
             <CardContent>
               <Typography component={"div"}>
@@ -122,6 +215,37 @@ export const ListNotes = () => {
           title={"Tambah Catatan Pembelajaran"}
         />
       </FullScreenDialog>
+
+      <FullScreenDialog
+        handleClose={handleCloseEdit}
+        open={openEdit}
+        handleSubmit={handleUpdate}
+      >
+        <AddNoteForm
+          handleChange={handleChange}
+          values={values}
+          title={"Edit Catatan Pembelajaran"}
+        />
+      </FullScreenDialog>
+      <CommonDelete
+        open={openDelete}
+        handleClose={() => {
+          handleCloseMenu();
+          setOpenDelete(false);
+        }}
+        handleSubmit={handleDelete}
+      />
+      <Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
+        <MenuItem onClick={handleLoadNote}>Edit</MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            setOpenDelete(true);
+          }}
+        >
+          Hapus
+        </MenuItem>
+      </Menu>
     </DetailTeacherClass>
   );
 };
