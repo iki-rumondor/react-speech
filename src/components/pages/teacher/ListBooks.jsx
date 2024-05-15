@@ -1,14 +1,15 @@
 import FullScreenDialog from "../../layouts/dialog/FullScreenDialog";
-import { Divider, Fab, Grid, Typography } from "@mui/material";
+import { Divider, Fab, Grid, Menu, MenuItem, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 import { DetailTeacherClass } from "./DetailClass";
 import { useEffect, useState } from "react";
 import { Add } from "@mui/icons-material";
 import { useUtils } from "../../../context/UtilsContext";
 import { useLoading } from "../../../context/LoadingContext";
-import { fetchAPI, postFile } from "../../../utils/Fetching";
+import { deleteAPI, fetchAPI, postFile } from "../../../utils/Fetching";
 import { BookCard } from "../../layouts/cards/BookCard";
 import { AddBookForm } from "../../layouts/forms/AddBookForm";
+import { CommonDelete } from "../../layouts/dialog/CommonDelete";
 
 const fabStyle = {
   position: "absolute",
@@ -19,6 +20,11 @@ const fabStyle = {
 export const ListBooks = () => {
   const { classSelected } = useUtils();
   const { isSuccess, setIsLoading, setIsSuccess } = useLoading();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openMenu = Boolean(anchorEl);
+  const [selectID, setSelectID] = useState(null);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const defaultValue = {
     title: "",
@@ -42,6 +48,10 @@ export const ListBooks = () => {
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
   };
 
   const handleLoad = async () => {
@@ -87,6 +97,21 @@ export const ListBooks = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      setOpenDelete(false);
+      setIsLoading(true);
+      setIsSuccess(false);
+      const res = await deleteAPI(`/books/${selectID}`);
+      setIsSuccess(true);
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (classSelected) {
       handleLoad();
@@ -113,9 +138,13 @@ export const ListBooks = () => {
 
       <Grid container spacing={2} marginBottom={3}>
         {data &&
-          data.map((video) => (
-            <Grid key={video.uuid} item xs={12} md={6} lg={4}>
-              <BookCard book={video} />
+          data.map((book) => (
+            <Grid key={book.uuid} item xs={12} md={6} lg={4}>
+              <BookCard
+                book={book}
+                setAnchorEl={setAnchorEl}
+                setSelectID={setSelectID}
+              />
             </Grid>
           ))}
       </Grid>
@@ -132,6 +161,26 @@ export const ListBooks = () => {
           title={"Tambah Buku Pembelajaran"}
         />
       </FullScreenDialog>
+
+      <CommonDelete
+        open={openDelete}
+        handleClose={() => {
+          handleCloseMenu();
+          setOpenDelete(false);
+        }}
+        handleSubmit={handleDelete}
+      />
+
+      <Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
+        <MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            setOpenDelete(true);
+          }}
+        >
+          Hapus
+        </MenuItem>
+      </Menu>
     </DetailTeacherClass>
   );
 };

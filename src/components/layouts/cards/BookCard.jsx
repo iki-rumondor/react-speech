@@ -1,8 +1,11 @@
 import {
+  Avatar,
   Card,
   CardActionArea,
   CardContent,
+  CardHeader,
   CardMedia,
+  IconButton,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -10,8 +13,10 @@ import { getBackendUrl } from "../../../utils/Helpers";
 import { useLoading } from "../../../context/LoadingContext";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { MoreVert } from "@mui/icons-material";
+import moment from "moment";
 
-export const BookCard = ({ book }) => {
+export const BookCard = ({ book, setAnchorEl, setSelectID }) => {
   const { setIsLoading } = useLoading();
   const backendUrl = getBackendUrl();
 
@@ -38,11 +43,28 @@ export const BookCard = ({ book }) => {
   return (
     <>
       <Card>
+        <CardHeader
+          avatar={<Avatar />}
+          title={book.teacher}
+          subheader={moment.unix(book.created_at / 1000).fromNow()}
+          action={
+            <>
+              <IconButton
+                onClick={(e) => {
+                  setAnchorEl(e.currentTarget)
+                  setSelectID(book.uuid)
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+            </>
+          }
+        />
         <CardActionArea
           // component={Link}
           // to={`/books/${book.file_name}`}
-          onClick={handleClick}
           // target="_blank"
+          onClick={handleClick}
         >
           <CardMedia
             sx={{ height: 140 }}

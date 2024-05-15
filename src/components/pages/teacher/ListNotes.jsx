@@ -1,15 +1,9 @@
 import FullScreenDialog from "../../layouts/dialog/FullScreenDialog";
 import {
   Avatar,
-  Button,
   Card,
   CardContent,
   CardHeader,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Fab,
   IconButton,
   Menu,
@@ -56,6 +50,7 @@ export const ListNotes = () => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
