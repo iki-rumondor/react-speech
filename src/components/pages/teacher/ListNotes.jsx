@@ -222,6 +222,7 @@ export const ListNotes = () => {
           title={"Edit Catatan Pembelajaran"}
         />
       </FullScreenDialog>
+
       <CommonDelete
         open={openDelete}
         handleClose={() => {

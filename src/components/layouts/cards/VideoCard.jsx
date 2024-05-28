@@ -1,15 +1,19 @@
-import { PlayCircle } from "@mui/icons-material";
+import { MoreVert, PlayCircle } from "@mui/icons-material";
 import {
+  Avatar,
   Card,
   CardActionArea,
   CardContent,
+  CardHeader,
   CardMedia,
+  IconButton,
   Typography,
 } from "@mui/material";
+import moment from "moment";
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const VideoCard = ({ video }) => {
+export const VideoCard = ({ video, setAnchorEl, setSelectID }) => {
   const playIconStyle = {
     position: "absolute",
     top: "50%",
@@ -22,6 +26,23 @@ export const VideoCard = ({ video }) => {
   return (
     <>
       <Card>
+        <CardHeader
+          avatar={<Avatar />}
+          title={video.teacher}
+          subheader={moment.unix(video.created_at / 1000).fromNow()}
+          action={
+            <>
+              <IconButton
+                onClick={(e) => {
+                  setAnchorEl(e.currentTarget)
+                  setSelectID(video.uuid)
+                }}
+              >
+                <MoreVert />
+              </IconButton>
+            </>
+          }
+        />
         <CardActionArea
           component={Link}
           to={`/videos/${video.uuid}`}

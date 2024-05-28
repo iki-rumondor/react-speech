@@ -10,11 +10,13 @@ export const Hero = () => {
         <div className="row align-items-center">
           <div className="col-md-6 text-md-start text-center py-6">
             <h1 className="mb-4 fs-9 fw-bold">
-              DisClass: Aplikasi Kelas Online
+              SPeMDi UNG
             </h1>
+            <h2 className="fw-bold">
+              Sistem Pembelajaran Mahasiswa Disabilitas
+            </h2>
             <p className="mb-6 lead text-secondary">
-              Aplikasi kelas online yang dilengkapi dengan video, audio, dan
-              dokumen yang dikhususkan untuk mahasiswa disabilitas
+              Sebuah Website Pembelajaran Bagi Mahasiswa Disabilitas
             </p>
             <div className="text-center text-md-start">
               {token ? (
