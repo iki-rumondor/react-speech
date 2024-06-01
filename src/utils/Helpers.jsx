@@ -64,7 +64,7 @@ export const filterTeachers = (filter, data) => {
 
   if (filter == "unverified") {
     result = data.filter((item) => {
-      return item.status == 1;
+      return item.status == 0;
     });
   }
 

@@ -7,15 +7,15 @@ export const HomeController = () => {
 
   useEffect(() => {
     if (role === "ADMIN") {
-      nav("/admin/dashboard");
+      window.location.href = "/admin/dashboard";
       return;
     }
     if (role === "DOSEN") {
-      nav("/teacher/dashboard");
+      window.location.href = "/teacher/dashboard";
       return;
     }
 
-    nav("/student/dashboard");
+    window.location.href = "/student/dashboard";
     return;
   }, []);
 

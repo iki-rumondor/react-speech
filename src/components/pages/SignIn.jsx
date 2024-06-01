@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useLoading } from "../../context/LoadingContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchAPI, postAPI } from "../../utils/Fetching";
 import toast from "react-hot-toast";
 import { jwtDecode } from "jwt-decode";

@@ -14,6 +14,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export const VideoCard = ({ video, setAnchorEl, setSelectID }) => {
+  const role = sessionStorage.getItem("role");
   const playIconStyle = {
     position: "absolute",
     top: "50%",
@@ -26,23 +27,25 @@ export const VideoCard = ({ video, setAnchorEl, setSelectID }) => {
   return (
     <>
       <Card>
-        <CardHeader
-          avatar={<Avatar />}
-          title={video.teacher}
-          subheader={moment.unix(video.created_at / 1000).fromNow()}
-          action={
-            <>
-              <IconButton
-                onClick={(e) => {
-                  setAnchorEl(e.currentTarget)
-                  setSelectID(video.uuid)
-                }}
-              >
-                <MoreVert />
-              </IconButton>
-            </>
-          }
-        />
+        {role == "DOSEN" && (
+          <CardHeader
+            avatar={<Avatar />}
+            title={video.teacher}
+            subheader={moment.unix(video.created_at / 1000).fromNow()}
+            action={
+              <>
+                <IconButton
+                  onClick={(e) => {
+                    setAnchorEl(e.currentTarget);
+                    setSelectID(video.uuid);
+                  }}
+                >
+                  <MoreVert />
+                </IconButton>
+              </>
+            }
+          />
+        )}
         <CardActionArea
           component={Link}
           to={`/videos/${video.uuid}`}

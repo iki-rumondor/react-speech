@@ -22,6 +22,8 @@ import { StudentVideos } from "./pages/student/ListVideos";
 import { StudentBooks } from "./pages/student/ListBooks";
 import { ListNotes } from "./pages/teacher/ListNotes";
 import { StudentNotes } from "./pages/student/ListNotes";
+import { TeacherDashboard } from "./pages/teacher/Dashboard";
+import { StudentDashboard } from "./pages/student/Dashboard";
 
 export const Router = () => {
   return (
@@ -34,7 +36,7 @@ export const Router = () => {
             <Route path="/admin/verify-teachers" element={<VerifyTeachers />} />
           </Route>
           <Route element={<RoleAuth name={"DOSEN"} />}>
-            <Route path="/teacher/dashboard" Component={AdminDashboard} />
+            <Route path="/teacher/dashboard" Component={TeacherDashboard} />
             <Route path="/teacher/class" element={<MasterClass />} />
             <Route path="/teacher/class/request" element={<RequestClass />} />
             <Route path="/teacher/class/videos" element={<ListVideos />} />
@@ -42,7 +44,7 @@ export const Router = () => {
             <Route path="/teacher/class/notes" element={<ListNotes />} />
           </Route>
           <Route element={<RoleAuth name={"MAHASISWA"} />}>
-            <Route path="/student/dashboard" Component={AdminDashboard} />
+            <Route path="/student/dashboard" Component={StudentDashboard} />
             <Route
               path="/student/request-classes"
               element={<RequestClassStudent />}

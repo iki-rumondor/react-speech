@@ -19,7 +19,7 @@ import moment from "moment";
 export const BookCard = ({ book, setAnchorEl, setSelectID }) => {
   const { setIsLoading } = useLoading();
   const backendUrl = getBackendUrl();
-
+  const role = sessionStorage.getItem("role");
   const handleClick = async () => {
     try {
       setIsLoading(true);
@@ -43,27 +43,26 @@ export const BookCard = ({ book, setAnchorEl, setSelectID }) => {
   return (
     <>
       <Card>
-        <CardHeader
-          avatar={<Avatar />}
-          title={book.teacher}
-          subheader={moment.unix(book.created_at / 1000).fromNow()}
-          action={
-            <>
-              <IconButton
-                onClick={(e) => {
-                  setAnchorEl(e.currentTarget)
-                  setSelectID(book.uuid)
-                }}
-              >
-                <MoreVert />
-              </IconButton>
-            </>
-          }
-        />
+        {role == "DOSEN" && (
+          <CardHeader
+            avatar={<Avatar />}
+            title={book.teacher}
+            subheader={moment.unix(book.created_at / 1000).fromNow()}
+            action={
+              <>
+                <IconButton
+                  onClick={(e) => {
+                    setAnchorEl(e.currentTarget);
+                    setSelectID(book.uuid);
+                  }}
+                >
+                  <MoreVert />
+                </IconButton>
+              </>
+            }
+          />
+        )}
         <CardActionArea
-          // component={Link}
-          // to={`/books/${book.file_name}`}
-          // target="_blank"
           onClick={handleClick}
         >
           <CardMedia
