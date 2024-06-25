@@ -76,7 +76,7 @@ export default function RequestClassTable({ data }) {
                     <TableCell component="th" scope="row">
                       {row.class_name}
                     </TableCell>
-                    <TableCell>{row.teacher}</TableCell>
+                    <TableCell>{row.student}</TableCell>
                     <TableCell>{date}</TableCell>
                     <TableCell>{status}</TableCell>
                     {!student && (
