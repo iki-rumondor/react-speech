@@ -8,9 +8,11 @@ export const SelectInput = ({
   handleChange,
   items,
   label,
+  sx,
+  valueName,
 }) => {
   return (
-    <FormControl fullWidth size={size}>
+    <FormControl sx={sx} fullWidth size={size}>
       <InputLabel id={id + "-label"}>{label}</InputLabel>
       <Select
         name={id}

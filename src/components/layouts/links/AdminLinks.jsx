@@ -1,4 +1,4 @@
-import { Dashboard, Logout, VerifiedUser } from "@mui/icons-material";
+import { Dashboard, FileCopy, Logout, VerifiedUser } from "@mui/icons-material";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
@@ -15,6 +15,11 @@ export const AdminLinks = () => {
       name: "Verifikasi Dosen",
       to: "/admin/verify-teachers",
       icon: <VerifiedUser />,
+    },
+    {
+      name: "Laporan",
+      to: "/admin/reports/student",
+      icon: <FileCopy />,
     },
     {
       name: "Logout",

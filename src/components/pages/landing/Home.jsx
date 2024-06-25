@@ -149,22 +149,20 @@ export const Home = () => {
                       <Typography gutterBottom variant="h5" component="div">
                         {item.name}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        <List dense>
-                          <ListItem>
-                            <ListItemAvatar>
-                              <Avatar>
-                                <RecordVoiceOver />
-                              </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary={item.teacher}
-                              primaryTypographyProps={{ fontWeight: "bold" }}
-                              secondary={item.teacher_department}
-                            />
-                          </ListItem>
-                        </List>
-                      </Typography>
+                      <List dense>
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <RecordVoiceOver />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={item.teacher}
+                            primaryTypographyProps={{ fontWeight: "bold" }}
+                            secondary={item.teacher_department}
+                          />
+                        </ListItem>
+                      </List>
                     </CardContent>
                     <CardActions
                       sx={{

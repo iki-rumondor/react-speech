@@ -3,6 +3,7 @@ import {
   Dashboard,
   Logout,
   Notes,
+  RequestPage,
   VerifiedUser,
 } from "@mui/icons-material";
 import { Divider, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
@@ -13,6 +14,11 @@ export const StudentLinks = () => {
   const { pathname } = useLocation();
   const links = [
     { name: "Dashboard", to: "/student/dashboard", icon: <Dashboard /> },
+    {
+      name: "Daftar Kelas",
+      to: "/classes",
+      icon: <RequestPage />,
+    },
     {
       name: "Pengajuan Kelas",
       to: "/student/request-classes",
