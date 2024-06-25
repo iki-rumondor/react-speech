@@ -5,7 +5,7 @@ const accessToken = sessionStorage.getItem("token");
 // const pdfAPIUrl = "http://localhost:8000/api/pdf/speech";
 
 const baseAPIUrl = "http://103.26.13.166:8080/api";
-const pdfAPIUrl = "http://103.26.13.166:8080/api/pdf/speech";
+const pdfAPIUrl = "http://103.26.13.166:8000/api/pdf/speech";
 
 export const postFile = async (endpoint, method, data) => {
   try {
