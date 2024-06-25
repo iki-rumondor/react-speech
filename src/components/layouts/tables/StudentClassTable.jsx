@@ -12,12 +12,12 @@ import toast from "react-hot-toast";
 import { useLoading } from "../../../context/LoadingContext";
 import { pdfAPI } from "../../../utils/Fetching";
 
-export default function StudentClassTable({ data }) {
+export default function StudentClassTable({ data, selectedClass }) {
   const { setIsLoading } = useLoading();
   const handlePrint = async () => {
     try {
       setIsLoading(true);
-      const res = await pdfAPI("/class_students", data);
+      const res = await pdfAPI(`/pdf/reports/classes/${selectedClass}`, data);
     } catch (error) {
       toast.error(error.message);
     } finally {

@@ -1,10 +1,11 @@
 import axios from "axios";
 
 const accessToken = sessionStorage.getItem("token");
-// const baseAPIUrl = "http://localhost:8080/api";
+const baseAPIUrl = "http://localhost:8080/api";
 // const pdfAPIUrl = "http://localhost:8000/api/pdf/speech";
 
-const baseAPIUrl = "http://103.26.13.166:8080/api";
+const localAPIUrl = "http://localhost:8080/api";
+// const baseAPIUrl = "http://103.26.13.166:8080/api";
 const pdfAPIUrl = "http://localhost:8000/api/pdf/speech";
 
 export const postFile = async (endpoint, method, data) => {
@@ -75,8 +76,9 @@ export const pdfAPI = async (endpoint, data) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `${pdfAPIUrl}${endpoint}`,
+      url: `${localAPIUrl}${endpoint}`,
       headers: {
+        Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/pdf",
       },
       responseType: "blob",

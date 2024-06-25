@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
-import { Box, Container, Paper } from "@mui/material";
+import { Box, Container, Paper, selectClasses } from "@mui/material";
 import { useLoading } from "../../../../context/LoadingContext";
 import { SelectInput } from "../../../layouts/input/SelectInput";
 import { fetchAPI } from "../../../../utils/Fetching";
@@ -99,7 +99,7 @@ export const StudentClassReport = () => {
             )}
           </Paper>
 
-          {data && selectedClass && <StudentClassTable data={data} />}
+          {data && selectedClass && <StudentClassTable data={data} selectedClass={selectedClass} />}
         </Box>
       </Container>
     </DashboardLayout>
