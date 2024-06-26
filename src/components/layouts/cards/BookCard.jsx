@@ -17,7 +17,6 @@ import { MoreVert } from "@mui/icons-material";
 import moment from "moment";
 
 export const BookCard = ({ book, setAnchorEl, setSelectID }) => {
-  console.log(book);
   const { setIsLoading } = useLoading();
   const backendUrl = getBackendUrl();
   const role = sessionStorage.getItem("role");
