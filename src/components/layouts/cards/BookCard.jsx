@@ -8,7 +8,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getBackendUrl } from "../../../utils/Helpers";
 import { useLoading } from "../../../context/LoadingContext";
 import toast from "react-hot-toast";
@@ -17,15 +17,22 @@ import { MoreVert } from "@mui/icons-material";
 import moment from "moment";
 
 export const BookCard = ({ book, setAnchorEl, setSelectID }) => {
+  console.log(book);
   const { setIsLoading } = useLoading();
   const backendUrl = getBackendUrl();
   const role = sessionStorage.getItem("role");
+  const [usingPdf, setUsingPdf] = useState({
+    url: `${backendUrl}/file/books/${book?.file_name}`,
+    thumbnail: "/src/assets/img/bg-book.jpg",
+  });
+
   const handleClick = async () => {
     try {
       setIsLoading(true);
       const response = await axios({
         method: "GET",
-        url: `${backendUrl}/file/books/${book?.file_name}`,
+        url: usingPdf.url,
+        // url: `${backendUrl}/file/books/${book?.file_name}`,
         headers: {
           "Content-Type": "application/pdf",
         },
@@ -39,6 +46,15 @@ export const BookCard = ({ book, setAnchorEl, setSelectID }) => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (book.flipbook?.url) {
+      setUsingPdf({
+        url: book.flipbook.url,
+        thumbnail: book.flipbook.thumbnail,
+      });
+    }
+  }, []);
 
   return (
     <>
@@ -62,12 +78,10 @@ export const BookCard = ({ book, setAnchorEl, setSelectID }) => {
             }
           />
         )}
-        <CardActionArea
-          onClick={handleClick}
-        >
+        <CardActionArea onClick={handleClick}>
           <CardMedia
             sx={{ height: 140 }}
-            image={"/src/assets/img/bg-book.jpg"}
+            image={usingPdf.thumbnail}
             title={book?.title}
           />
         </CardActionArea>
