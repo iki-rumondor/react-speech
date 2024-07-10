@@ -2,6 +2,7 @@ import {
   BookOnlineOutlined,
   ClassRounded,
   Dashboard,
+  FileCopy,
   Logout,
   Notes,
 } from "@mui/icons-material";
@@ -21,6 +22,11 @@ export const TeacherLinks = () => {
       name: "Pengajuan Kelas",
       to: "/teacher/class/request",
       icon: <ClassRounded />,
+    },
+    {
+      name: "Materi Pembelajaran",
+      to: "/teacher/materials",
+      icon: <FileCopy />,
     },
     {
       name: "Video Pembelajaran",

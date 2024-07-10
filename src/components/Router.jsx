@@ -26,6 +26,7 @@ import { TeacherDashboard } from "./pages/teacher/Dashboard";
 import { StudentDashboard } from "./pages/student/Dashboard";
 import { Classes } from "./pages/student/Classes";
 import { StudentClassReport } from "./pages/admin/reports/StudentClassReport";
+import { Materials } from "./pages/teacher/Materials";
 
 export const Router = () => {
   return (
@@ -45,6 +46,7 @@ export const Router = () => {
             <Route path="/teacher/class/videos" element={<ListVideos />} />
             <Route path="/teacher/class/books" element={<ListBooks />} />
             <Route path="/teacher/class/notes" element={<ListNotes />} />
+            <Route path="/teacher/materials" element={<Materials />} />
           </Route>
           <Route element={<RoleAuth name={"MAHASISWA"} />}>
             <Route path="/student/dashboard" Component={StudentDashboard} />

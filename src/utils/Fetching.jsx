@@ -2,8 +2,8 @@ import axios from "axios";
 
 const accessToken = sessionStorage.getItem("token");
 
-// const baseAPIUrl = "http://localhost:8080/api";
-const baseAPIUrl = "http://103.26.13.166:8080/api";
+const baseAPIUrl = "http://localhost:8080/api";
+// const baseAPIUrl = "http://103.26.13.166:8080/api";
 // const pdfAPIUrl = "http://localhost:8000/api/pdf/speech";
 
 

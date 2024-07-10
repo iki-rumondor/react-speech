@@ -71,7 +71,8 @@ export const filterTeachers = (filter, data) => {
   return result;
 };
 
-const BACKEND_BASE_URL = "http://103.26.13.166:8080/api"
+// const BACKEND_BASE_URL = "http://103.26.13.166:8080/api"
+const BACKEND_BASE_URL = "http://localhost:8080/api"
 
 export const getBackendUrl = () => {
   return BACKEND_BASE_URL

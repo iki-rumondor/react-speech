@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useState } from "react";
+import { Typography } from "@mui/material";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -16,17 +17,22 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function UploadFileInput({ name, handleChange }) {
+export default function UploadFileInput({ name, caption, handleChange }) {
   return (
-    <Button
-      component="label"
-      role={undefined}
-      variant="contained"
-      tabIndex={-1}
-      startIcon={<CloudUploadIcon />}
-    >
-      {name}
-      <VisuallyHiddenInput onChange={handleChange} type="file" />
-    </Button>
+    <>
+      <div>
+        <Button
+          component="label"
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
+          startIcon={<CloudUploadIcon />}
+        >
+          {name}
+          <VisuallyHiddenInput onChange={handleChange} type="file" />
+        </Button>
+      </div>
+      <Typography variant="caption">{caption}</Typography>
+    </>
   );
 }
