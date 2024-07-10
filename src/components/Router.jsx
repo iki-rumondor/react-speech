@@ -27,6 +27,7 @@ import { StudentDashboard } from "./pages/student/Dashboard";
 import { Classes } from "./pages/student/Classes";
 import { StudentClassReport } from "./pages/admin/reports/StudentClassReport";
 import { Materials } from "./pages/teacher/Materials";
+import { VideoByMaterial } from "./pages/video/ByMaterial";
 
 export const Router = () => {
   return (
@@ -61,6 +62,7 @@ export const Router = () => {
           </Route>
           <Route path="/books/:file_name" element={<BookView />} />
           <Route path="/videos/:uuid" element={<VideoPages />} />
+          <Route path="/videos/materials/:uuid" element={<VideoByMaterial />} />
           <Route path="/home" element={<HomeController />} />
           <Route path="/logout" element={<Logout />} />
         </Route>
