@@ -28,6 +28,7 @@ import { Classes } from "./pages/student/Classes";
 import { StudentClassReport } from "./pages/admin/reports/StudentClassReport";
 import { Materials } from "./pages/teacher/Materials";
 import { VideoByMaterial } from "./pages/video/ByMaterial";
+import { MasterTeacher } from "./pages/admin/master/MasterTeacher";
 
 export const Router = () => {
   return (
@@ -37,6 +38,7 @@ export const Router = () => {
           <Route element={<RoleAuth name={"ADMIN"} />}>
             <Route path="/admin/dashboard" Component={AdminDashboard} />
             <Route path="/admin/master/prodi" element={<MasterDepartment />} />
+            <Route path="/admin/master/teacher" element={<MasterTeacher />} />
             <Route path="/admin/verify-teachers" element={<VerifyTeachers />} />
             <Route path="/admin/reports/student" element={<StudentClassReport />} />
           </Route>
