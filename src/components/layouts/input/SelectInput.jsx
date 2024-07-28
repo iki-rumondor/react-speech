@@ -9,7 +9,6 @@ export const SelectInput = ({
   items,
   label,
   sx,
-  valueName,
 }) => {
   return (
     <FormControl sx={sx} fullWidth size={size}>
@@ -22,11 +21,12 @@ export const SelectInput = ({
         label={label}
         onChange={handleChange}
       >
-        {items.map((item, idx) => (
-          <MenuItem key={idx} value={item.value}>
-            {item.name}
-          </MenuItem>
-        ))}
+        {items &&
+          items.map((item, idx) => (
+            <MenuItem key={idx} value={item.value}>
+              {item.name}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   );

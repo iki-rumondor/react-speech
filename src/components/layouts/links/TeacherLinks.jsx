@@ -28,21 +28,21 @@ export const TeacherLinks = () => {
       to: "/teacher/materials",
       icon: <FileCopy />,
     },
-    {
-      name: "Video Pembelajaran",
-      to: "/teacher/class/videos",
-      icon: <ClassRounded />,
-    },
-    {
-      name: "Buku",
-      to: "/teacher/class/books",
-      icon: <BookOnlineOutlined />,
-    },
-    {
-      name: "Catatan",
-      to: "/teacher/class/notes",
-      icon: <Notes />,
-    },
+    // {
+    //   name: "Video Pembelajaran",
+    //   to: "/teacher/class/videos",
+    //   icon: <ClassRounded />,
+    // },
+    // {
+    //   name: "Buku",
+    //   to: "/teacher/class/books",
+    //   icon: <BookOnlineOutlined />,
+    // },
+    // {
+    //   name: "Catatan",
+    //   to: "/teacher/class/notes",
+    //   icon: <Notes />,
+    // },
   ];
 
   const dropLinks = [

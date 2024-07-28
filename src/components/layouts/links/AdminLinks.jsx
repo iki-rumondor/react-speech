@@ -16,11 +16,11 @@ export const AdminLinks = () => {
       to: "/admin/master/teacher",
       icon: <VerifiedUser />,
     },
-    {
-      name: "Verifikasi Dosen",
-      to: "/admin/verify-teachers",
-      icon: <VerifiedUser />,
-    },
+    // {
+    //   name: "Verifikasi Dosen",
+    //   to: "/admin/verify-teachers",
+    //   icon: <VerifiedUser />,
+    // },
     {
       name: "Laporan",
       to: "/admin/reports/student",

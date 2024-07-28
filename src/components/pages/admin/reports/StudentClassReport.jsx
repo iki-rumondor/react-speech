@@ -22,6 +22,9 @@ export const StudentClassReport = () => {
     try {
       setIsLoading(true);
       const res = await fetchAPI(`/classes/all`);
+      if (!res.data) {
+        return;
+      }
       const classesValue = res.data.map((item) => {
         return {
           name: `${item.name} - ${item.teacher}`,
@@ -99,7 +102,9 @@ export const StudentClassReport = () => {
             )}
           </Paper>
 
-          {data && selectedClass && <StudentClassTable data={data} selectedClass={selectedClass} />}
+          {data && selectedClass && (
+            <StudentClassTable data={data} selectedClass={selectedClass} />
+          )}
         </Box>
       </Container>
     </DashboardLayout>
