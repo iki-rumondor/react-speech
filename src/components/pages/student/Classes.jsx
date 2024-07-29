@@ -17,17 +17,19 @@ import { fetchAPI, postAPI } from "../../../utils/Fetching";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useLoading } from "../../../context/LoadingContext";
-import { orange } from "@mui/material/colors";
+import { green, orange } from "@mui/material/colors";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
 
 export const Classes = () => {
-  const { setIsLoading } = useLoading();
+  const { setIsLoading, setIsSuccess, isSuccess } = useLoading();
   const [classes, setClasses] = useState(null);
 
   const handleLoad = async () => {
     try {
       setIsLoading(true);
-      const res = await fetchAPI(`/public/classes`);
+      const res = await fetchAPI(
+        `/classes/students/${sessionStorage.getItem("uuid")}`
+      );
       setClasses(res.data);
     } catch (error) {
       toast.error(error.message);
@@ -39,10 +41,12 @@ export const Classes = () => {
   const handleSubmit = async (uuid) => {
     try {
       setIsLoading(true);
-      const res = await postAPI("/class/register", "POST", {
+      setIsSuccess(false);
+      const res = await postAPI("/classes/join", "POST", {
         class_uuid: uuid,
       });
       toast.success(res.message);
+      setIsSuccess(true);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -52,14 +56,14 @@ export const Classes = () => {
 
   useEffect(() => {
     handleLoad();
-  }, []);
+  }, [isSuccess]);
 
   return (
     <DashboardLayout name={"Daftar Kelas"}>
       <Grid container spacing={2}>
         {classes &&
           classes.map((item) => (
-            <Grid key={item.uuid} item xs={12} md={6}>
+            <Grid key={item.class?.uuid} item xs={12} md={6}>
               <Card>
                 <CardMedia
                   sx={{ height: 140 }}
@@ -68,7 +72,7 @@ export const Classes = () => {
                 />
                 <CardContent sx={{ marginY: 0, paddingY: 1 }}>
                   <Typography gutterBottom variant="h5" component="div">
-                    {item.name}
+                    {item?.class?.name}
                   </Typography>
                   <List dense>
                     <ListItem>
@@ -78,9 +82,9 @@ export const Classes = () => {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary={item.teacher}
+                        primary={item?.class?.teacher}
                         primaryTypographyProps={{ fontWeight: "bold" }}
-                        secondary={item.teacher_department}
+                        secondary={item?.class?.teacher_department}
                       />
                     </ListItem>
                   </List>
@@ -93,21 +97,27 @@ export const Classes = () => {
                     paddingBottom: 2,
                   }}
                 >
-                  <Button
-                    onClick={() => {
-                      handleSubmit(item.uuid);
-                    }}
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      bgcolor: orange[600],
-                      "&:hover": {
-                        bgcolor: orange[900],
-                      },
-                    }}
-                  >
-                    Daftar
-                  </Button>
+                  {item?.join ? (
+                    <Button href={`/student/materials?class_uuid=${item.class?.uuid}`} variant="contained" size="small">
+                      Lihat Materi
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        handleSubmit(item?.class?.uuid);
+                      }}
+                      variant="contained"
+                      size="small"
+                      sx={{
+                        bgcolor: green[600],
+                        "&:hover": {
+                          bgcolor: green[900],
+                        },
+                      }}
+                    >
+                      Masuk
+                    </Button>
+                  )}
                 </CardActions>
               </Card>
             </Grid>

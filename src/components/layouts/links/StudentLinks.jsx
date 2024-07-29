@@ -19,11 +19,11 @@ export const StudentLinks = () => {
       to: "/classes",
       icon: <RequestPage />,
     },
-    {
-      name: "Pengajuan Kelas",
-      to: "/student/request-classes",
-      icon: <ClassRounded />,
-    },
+    // {
+    //   name: "Pengajuan Kelas",
+    //   to: "/student/request-classes",
+    //   icon: <ClassRounded />,
+    // },
     {
       name: "Materi",
       to: "/student/materials",

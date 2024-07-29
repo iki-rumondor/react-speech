@@ -22,8 +22,8 @@ export const DetailStudentClass = ({ title, children }) => {
       res.data &&
         res.data.map((item) => {
           items.push({
-            name: item.name,
-            value: item.uuid,
+            name: item?.class?.name,
+            value: item?.class?.uuid,
           });
         });
       setClasses(items);

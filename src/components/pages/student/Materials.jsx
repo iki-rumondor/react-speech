@@ -30,11 +30,15 @@ import toast from "react-hot-toast";
 import { getBackendUrl } from "../../../utils/Helpers";
 import { CommonDelete } from "../../layouts/dialog/CommonDelete";
 import { DetailStudentClass } from "./DetailStudentClass";
+import { useLocation, useParams } from "react-router-dom";
 
 export const StudentMaterials = () => {
   const { setIsLoading, isSuccess } = useLoading();
-  const { classSelected } = useUtils();
-
+  const { classParam } = useParams();
+  const { setClassSelected, classSelected } = useUtils();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const classUuid = queryParams.get("class_uuid");
   const [materials, setMaterials] = useState(null);
   const backendUrl = getBackendUrl();
 
@@ -51,6 +55,7 @@ export const StudentMaterials = () => {
   };
 
   useEffect(() => {
+    setClassSelected(classUuid);
     classSelected && handleLoad();
   }, [isSuccess, classSelected]);
 
