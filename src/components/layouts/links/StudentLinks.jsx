@@ -25,20 +25,25 @@ export const StudentLinks = () => {
       icon: <ClassRounded />,
     },
     {
-      name: "Video",
-      to: "/student/videos",
+      name: "Materi",
+      to: "/student/materials",
       icon: <ClassRounded />,
     },
-    {
-      name: "Buku",
-      to: "/student/books",
-      icon: <ClassRounded />,
-    },
-    {
-      name: "Catatan",
-      to: "/student/notes",
-      icon: <Notes />,
-    },
+    // {
+    //   name: "Video",
+    //   to: "/student/videos",
+    //   icon: <ClassRounded />,
+    // },
+    // {
+    //   name: "Buku",
+    //   to: "/student/books",
+    //   icon: <ClassRounded />,
+    // },
+    // {
+    //   name: "Catatan",
+    //   to: "/student/notes",
+    //   icon: <Notes />,
+    // },
   ];
 
   const dropLinks = [

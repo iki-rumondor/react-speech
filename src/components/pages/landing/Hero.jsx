@@ -28,9 +28,9 @@ export const Hero = () => {
                   <Link to={"/signin"} className="btn btn-warning me-3">
                     Masuk
                   </Link>
-                  <Link to={"/signup"} className="btn btn-dark me-3">
+                  {/* <Link to={"/signup"} className="btn btn-dark me-3">
                     Daftar
-                  </Link>
+                  </Link> */}
                 </>
               )}
             </div>

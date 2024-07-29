@@ -30,6 +30,7 @@ import { Materials } from "./pages/teacher/Materials";
 import { VideoByMaterial } from "./pages/video/ByMaterial";
 import { MasterTeacher } from "./pages/admin/master/MasterTeacher";
 import { MasterStudent } from "./pages/admin/master/MasterStudent";
+import { StudentMaterials } from "./pages/student/Materials";
 
 export const Router = () => {
   return (
@@ -63,6 +64,7 @@ export const Router = () => {
             <Route path="/student/videos" element={<StudentVideos />} />
             <Route path="/student/books" element={<StudentBooks />} />
             <Route path="/student/notes" element={<StudentNotes />} />
+            <Route path="/student/materials" element={<StudentMaterials />} />
           </Route>
           <Route path="/books/:file_name" element={<BookView />} />
           <Route path="/videos/:uuid" element={<VideoPages />} />

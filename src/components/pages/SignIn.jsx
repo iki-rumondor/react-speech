@@ -118,7 +118,7 @@ export default function SignIn() {
                 value={values.email}
                 onChange={handleChange}
                 id="email"
-                label="Alamat Email"
+                label="Username"
                 name="email"
                 autoComplete="email"
               />
@@ -142,13 +142,13 @@ export default function SignIn() {
               >
                 Masuk
               </Button>
-              <Grid container justifyContent={"center"}>
+              {/* <Grid container justifyContent={"center"}>
                 <Grid item>
                   <Link href="/signup" variant="body2">
                     {"Belum Punya Akun? Silahkan Mendaftar"}
                   </Link>
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
