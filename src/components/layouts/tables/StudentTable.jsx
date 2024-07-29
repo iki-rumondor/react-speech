@@ -14,36 +14,19 @@ import { AddDepartmentForm } from "../forms/AddDepartmentForm";
 import { fetchAPI, postAPI } from "../../../utils/Fetching";
 import toast from "react-hot-toast";
 import DeleteDialog from "../dialog/DeleteDialog";
+import { UpdateStudentForm } from "../forms/UpdateStudentForm";
 
 export default function StudentTable({ data }) {
   const { setIsLoading, setIsSuccess } = useLoading();
   const [open, setOpen] = useState(false);
-  const [uuid, setUuid] = useState(null);
+  const [selectRow, setSelectRow] = useState(null);
   const [values, setValues] = useState(null);
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleOpen = (uuid) => {
-    setOpen(true);
-    handleLoad(uuid);
-    setUuid(uuid);
-  };
-
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleLoad = async (uuid) => {
-    try {
-      setIsLoading(true);
-      const res = await fetchAPI(`/department/${uuid}`);
-      setValues(res.data);
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const handleSubmit = async () => {
@@ -76,18 +59,24 @@ export default function StudentTable({ data }) {
           <TableBody>
             {data.map((row, idx) => (
               <TableRow
-                key={row.name}
+                key={row.uuid}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell>{idx + 1}</TableCell>
+                <TableCell component="th" scope="row">
+                  {row.nim}
+                </TableCell>
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
                 <TableCell>
                   <Stack direction="row" spacing={1}>
-                    <DeleteDialog endpoint={`/department/${row.uuid}`} />
+                    <DeleteDialog endpoint={`/students/${row.uuid}`} />
                     <IconButton
-                      onClick={() => handleOpen(row.uuid)}
+                      onClick={() => {
+                        setOpen(true);
+                        setSelectRow(row.uuid);
+                      }}
                       aria-label="edit"
                       color="primary"
                     >
@@ -100,17 +89,8 @@ export default function StudentTable({ data }) {
           </TableBody>
         </Table>
       </TableContainer>
-      <FullScreenDialog
-        handleSubmit={handleSubmit}
-        handleClose={handleClose}
-        open={open}
-      >
-        <AddDepartmentForm
-          title={"Update Data Program Studi"}
-          values={values}
-          onChange={handleChange}
-        />
-      </FullScreenDialog>
+
+      <UpdateStudentForm open={open} setOpen={setOpen} selectRow={selectRow} />
     </>
   );
 }
