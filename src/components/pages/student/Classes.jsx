@@ -27,9 +27,9 @@ export const Classes = () => {
   const handleLoad = async () => {
     try {
       setIsLoading(true);
-      const res = await fetchAPI(
-        `/classes/students/${sessionStorage.getItem("uuid")}`
-      );
+      const res = await fetchAPI(`/classes/all`);
+      console.log(res.data);
+      
       setClasses(res.data);
     } catch (error) {
       toast.error(error.message);
@@ -72,7 +72,7 @@ export const Classes = () => {
                 />
                 <CardContent sx={{ marginY: 0, paddingY: 1 }}>
                   <Typography gutterBottom variant="h5" component="div">
-                    {item?.class?.name}
+                    {item?.name}
                   </Typography>
                   <List dense>
                     <ListItem>
@@ -82,9 +82,9 @@ export const Classes = () => {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary={item?.class?.teacher}
+                        primary={item?.teacher}
                         primaryTypographyProps={{ fontWeight: "bold" }}
-                        secondary={item?.class?.teacher_department}
+                        secondary={item?.teacher_department}
                       />
                     </ListItem>
                   </List>
@@ -98,13 +98,17 @@ export const Classes = () => {
                   }}
                 >
                   {item?.join ? (
-                    <Button href={`/student/materials?class_uuid=${item.class?.uuid}`} variant="contained" size="small">
+                    <Button
+                      href={`/student/materials?class_uuid=${item.uuid}`}
+                      variant="contained"
+                      size="small"
+                    >
                       Lihat Materi
                     </Button>
                   ) : (
                     <Button
                       onClick={() => {
-                        handleSubmit(item?.class?.uuid);
+                        handleSubmit(item?.uuid);
                       }}
                       variant="contained"
                       size="small"

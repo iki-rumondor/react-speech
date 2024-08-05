@@ -12,7 +12,7 @@ export const DetailStudentClass = ({ title, children }) => {
   const { classSelected, setClassSelected } = useUtils();
   const [classes, setClasses] = useState([]);
   const [detailClass, setDetailClass] = useState(null);
-  const userUuid = sessionStorage.getItem("uuid")
+  const userUuid = sessionStorage.getItem("uuid");
 
   const handleLoad = async () => {
     try {
@@ -26,6 +26,7 @@ export const DetailStudentClass = ({ title, children }) => {
             value: item?.class?.uuid,
           });
         });
+
       setClasses(items);
     } catch (error) {
       toast.error(error.message);
@@ -73,7 +74,10 @@ export const DetailStudentClass = ({ title, children }) => {
 
         {detailClass && (
           <Card sx={{ marginTop: 4 }}>
-            <CardMedia sx={{ height: 200 }} image="/src/assets/img/bg-class.jpg" />
+            <CardMedia
+              sx={{ height: 200 }}
+              image="/src/assets/img/bg-class.jpg"
+            />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {detailClass.name}

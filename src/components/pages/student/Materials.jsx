@@ -55,7 +55,14 @@ export const StudentMaterials = () => {
   };
 
   useEffect(() => {
-    setClassSelected(classUuid);
+    if (classUuid == null) {
+      setClassSelected("");
+    } else {
+      setClassSelected(classUuid);
+    }
+  }, []);
+
+  useEffect(() => {
     classSelected && handleLoad();
   }, [isSuccess, classSelected]);
 
