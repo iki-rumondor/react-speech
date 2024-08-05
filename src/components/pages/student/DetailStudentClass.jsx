@@ -21,10 +21,11 @@ export const DetailStudentClass = ({ title, children }) => {
       const items = [];
       res.data &&
         res.data.map((item) => {
-          items.push({
-            name: item?.class?.name,
-            value: item?.class?.uuid,
-          });
+          item.join &&
+            items.push({
+              name: item?.class?.name,
+              value: item?.class?.uuid,
+            });
         });
 
       setClasses(items);
