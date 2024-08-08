@@ -9,17 +9,17 @@ import moment from "moment";
 import { Button } from "@mui/material";
 import toast from "react-hot-toast";
 import { useLoading } from "../../../context/LoadingContext";
-import { fetchAPI, pdfAPI } from "../../../utils/Fetching";
+import { fetchAPI, laravelAPI, pdfAPI } from "../../../utils/Fetching";
 import { useEffect } from "react";
 import { useState } from "react";
 
-export default function StudentClassTable({ selectedClass }) {
+export default function AssignmentStudentsTable({ selectedStudent }) {
   const { setIsLoading } = useLoading();
   const [data, setData] = useState(null);
   const handlePrint = async () => {
     try {
       setIsLoading(true);
-      const res = await pdfAPI(`/pdf/reports/classes/${selectedClass}`, data);
+      const res = await laravelAPI(`/pdf/speech/student_assignments`, data);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -30,25 +30,8 @@ export default function StudentClassTable({ selectedClass }) {
   const handleLoad = async () => {
     try {
       setIsLoading(true);
-      const res = await fetchAPI(`/classes/${selectedClass}`);
-
-      const students =
-        res?.data?.students &&
-        res.data.students.map((item) => {
-          return {
-            ...item,
-            register_string: moment
-              .unix(item.register_class_time / 1000)
-              .format("DD MMMM YYYY"),
-          };
-        });
-
-      const respData = {
-        ...res.data,
-        students: students,
-      };
-
-      setData(respData);
+      const res = await fetchAPI(`/assignments/students/${selectedStudent}`);
+      setData(res.data);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -57,13 +40,12 @@ export default function StudentClassTable({ selectedClass }) {
   };
 
   useEffect(() => {
-    selectedClass && handleLoad();
-    console.log(data);
-  }, [selectedClass]);
+    selectedStudent && handleLoad();
+  }, [selectedStudent]);
 
   return (
     <>
-      {data?.students && (
+      {data && (
         <>
           <Button
             variant="contained"
@@ -77,23 +59,26 @@ export default function StudentClassTable({ selectedClass }) {
               <TableHead>
                 <TableRow>
                   <TableCell>No</TableCell>
-                  <TableCell>Nama Mahasiswa</TableCell>
-                  <TableCell>NIM</TableCell>
-                  <TableCell>Tanggal Bergabung</TableCell>
+                  <TableCell>Kelas</TableCell>
+                  <TableCell>Judul Tugas</TableCell>
+                  <TableCell>Nilai</TableCell>
+                  <TableCell>Keterangan</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.students &&
-                  data.students.map((row, idx) => (
+                {data &&
+                  data.map((row, idx) => (
                     <TableRow
                       key={idx}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>{idx + 1}</TableCell>
                       <TableCell component="th" scope="row">
-                        {row.name}
+                        {row.class.name}
                       </TableCell>
-                      <TableCell>{row.nim}</TableCell>
+                      <TableCell>{row.title}</TableCell>
+                      <TableCell>{row.student_answer.grade}</TableCell>
+                      <TableCell>{row.student_answer.ontime ? "Tepat Waktu" : "Terlambat"}</TableCell>
                       <TableCell>{row.register_string}</TableCell>
                     </TableRow>
                   ))}

@@ -7,21 +7,28 @@ import { fetchAPI } from "../../../../utils/Fetching";
 import toast from "react-hot-toast";
 import StudentClassTable from "../../../layouts/tables/StudentClassTable";
 import moment from "moment";
+import AssignmentStudentsTable from "../../../layouts/tables/AssignmentStudentsTable";
 
 export const StudentClassReport = () => {
   const { isSuccess, setIsLoading } = useLoading();
-  const [data, setData] = useState(null);
+  
   const [classes, setClasses] = useState(null);
-  const [selected, setSelected] = useState("class_student");
+  const [students, setStudents] = useState(null);
+  const [selected, setSelected] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState("");
+  const [content, setContent] = useState("");
   const items = [
     { name: "Laporan Mahasiswa Per Kelas", value: "class_student" },
+    { name: "Laporan Tugas Mahasiswa", value: "assignment_student" },
   ];
 
   const handleLoad = async () => {
     try {
       setIsLoading(true);
       const res = await fetchAPI(`/classes/all`);
+      const res2 = await fetchAPI(`/students`);
+      
       if (!res.data) {
         return;
       }
@@ -31,48 +38,47 @@ export const StudentClassReport = () => {
           value: item.uuid,
         };
       });
-      setClasses(classesValue);
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
-  const handleLoadClass = async () => {
-    try {
-      setIsLoading(true);
-      const res = await fetchAPI(`/classes/${selectedClass}`);
-
-      const students = res?.data?.students?.map((item) => {
+      if (!res2.data) {
+        return;
+      }
+      const studentsValue = res2.data.map((item) => {
         return {
-          ...item,
-          register_string: moment
-            .unix(item.register_class_time / 1000)
-            .format("DD MMMM YYYY"),
+          name: item.name,
+          value: item.uuid,
         };
       });
-
-      const respData = {
-        ...res.data,
-        students: students,
-      };
-
-      setData(respData);
+      
+      setClasses(classesValue);
+      setStudents(studentsValue);
     } catch (error) {
       toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
+
+  
+
+  useEffect(() => {
+    switch (selected) {
+      case "class_student":
+        setContent(
+          <StudentClassTable selectedClass={selectedClass} />
+        );
+        break;
+      case "assignment_student":
+        setContent(
+          <AssignmentStudentsTable selectedStudent={selectedStudent} />
+        );
+        break;
+    }
+  }, [selected, selectedClass, selectedStudent]);
 
   useEffect(() => {
     handleLoad();
   }, [isSuccess]);
 
-  useEffect(() => {
-    selectedClass && handleLoadClass();
-  }, [selectedClass]);
 
   return (
     <DashboardLayout name={"Laporan"}>
@@ -89,6 +95,7 @@ export const StudentClassReport = () => {
               label={"Jenis Laporan"}
               items={items}
             />
+
             {classes && selected == "class_student" && (
               <SelectInput
                 value={selectedClass}
@@ -100,11 +107,21 @@ export const StudentClassReport = () => {
                 items={classes}
               />
             )}
+
+            {students && selected == "assignment_student" && (
+              <SelectInput
+                value={selectedStudent}
+                handleChange={(e) => {
+                  setSelectedStudent(e.target.value);
+                }}
+                size={"small"}
+                label={"Pilih Mahasiswa"}
+                items={students}
+              />
+            )}
           </Paper>
 
-          {data && selectedClass && (
-            <StudentClassTable data={data} selectedClass={selectedClass} />
-          )}
+          {content}
         </Box>
       </Container>
     </DashboardLayout>

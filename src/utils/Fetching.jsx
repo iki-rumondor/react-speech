@@ -3,6 +3,7 @@ import axios from "axios";
 const accessToken = sessionStorage.getItem("token");
 
 const baseAPIUrl = "http://localhost:8080/api";
+const laravelAPIUrl = "http://localhost:8000/api";
 // const baseAPIUrl = "http://103.26.13.166:8080/api";
 
 export const postFile = async (endpoint, method, data) => {
@@ -93,6 +94,26 @@ export const pdfAPI = async (endpoint, data) => {
     const response = await axios({
       method: "POST",
       url: `${baseAPIUrl}${endpoint}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/pdf",
+      },
+      responseType: "blob",
+      data: data,
+    });
+    const url = window.URL.createObjectURL(response.data);
+    window.open(url, "_blank");
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};
+
+export const laravelAPI = async (endpoint, data) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `${laravelAPIUrl}${endpoint}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/pdf",
