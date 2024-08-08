@@ -17,11 +17,13 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-export default function UploadFileInput({ name, caption, handleChange }) {
+export default function UploadFileInput({ size, name, caption, handleChange, sx }) {
   return (
     <>
       <div>
         <Button
+          size={size}
+          sx={sx}
           component="label"
           role={undefined}
           variant="contained"

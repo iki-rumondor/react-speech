@@ -21,7 +21,6 @@ export const UpdateStudentForm = ({ selectRow, open, setOpen }) => {
       setIsLoading(true);
       const res = await fetchAPI(`/students/${selectRow}`);
       setValues(res.data);
-      console.log(res.data);
     } catch (error) {
       toast.error(error.message);
     } finally {

@@ -29,6 +29,11 @@ export const StudentLinks = () => {
       to: "/student/materials",
       icon: <ClassRounded />,
     },
+    {
+      name: "Tugas",
+      to: "/student/assignments",
+      icon: <ClassRounded />,
+    },
     // {
     //   name: "Video",
     //   to: "/student/videos",

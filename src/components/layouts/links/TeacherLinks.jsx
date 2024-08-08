@@ -28,6 +28,11 @@ export const TeacherLinks = () => {
       to: "/teacher/materials",
       icon: <FileCopy />,
     },
+    {
+      name: "Tugas",
+      to: "/teacher/assignments",
+      icon: <FileCopy />,
+    },
     // {
     //   name: "Video Pembelajaran",
     //   to: "/teacher/class/videos",
