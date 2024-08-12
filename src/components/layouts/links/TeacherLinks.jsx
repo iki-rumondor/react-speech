@@ -13,16 +13,16 @@ export const TeacherLinks = () => {
   const { pathname } = useLocation();
   const links = [
     { name: "Dashboard", to: "/teacher/dashboard", icon: <Dashboard /> },
-    {
-      name: "Kelas",
-      to: "/teacher/class",
-      icon: <ClassRounded />,
-    },
-    {
-      name: "Pengajuan Kelas",
-      to: "/teacher/class/request",
-      icon: <ClassRounded />,
-    },
+    // {
+    //   name: "Kelas",
+    //   to: "/teacher/class",
+    //   icon: <ClassRounded />,
+    // },
+    // {
+    //   name: "Pengajuan Kelas",
+    //   to: "/teacher/class/request",
+    //   icon: <ClassRounded />,
+    // },
     {
       name: "Materi Pembelajaran",
       to: "/teacher/materials",

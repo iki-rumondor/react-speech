@@ -32,6 +32,8 @@ import { MasterStudent } from "./pages/admin/master/MasterStudent";
 import { StudentMaterials } from "./pages/student/Materials";
 import { AssignmentTeacher } from "./pages/teacher/Assignment";
 import { AssignmentStudent } from "./pages/student/Assignment";
+import { AdminMasterClass } from "./pages/admin/master/classes/Index";
+import { MasterSubjects } from "./pages/admin/master/subjects/Index";
 
 export const Router = () => {
   return (
@@ -43,6 +45,8 @@ export const Router = () => {
             <Route path="/admin/master/prodi" element={<MasterDepartment />} />
             <Route path="/admin/master/teacher" element={<MasterTeacher />} />
             <Route path="/admin/master/students" element={<MasterStudent />} />
+            <Route path="/admin/master/classes" element={<AdminMasterClass />} />
+            <Route path="/admin/master/subjects" element={<MasterSubjects />} />
             <Route path="/admin/verify-teachers" element={<VerifyTeachers />} />
             <Route path="/admin/reports/student" element={<StudentClassReport />} />
           </Route>

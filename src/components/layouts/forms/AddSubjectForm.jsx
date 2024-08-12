@@ -2,11 +2,11 @@ import { Box, TextField, Typography } from "@mui/material";
 import React from "react";
 import { SelectInput } from "../input/SelectInput";
 
-export const AddClassForm = ({
+export const AddSubjectForm = ({
   teachers,
   values,
   onChange,
-  title = "Tambah Kelas",
+  title = "Tambah Mata Kuliah",
 }) => {
   return (
     <Box
@@ -31,7 +31,7 @@ export const AddClassForm = ({
         required
         value={values?.name}
         name="name"
-        label="Nama Kelas"
+        label="Nama Mata Kuliah"
         onChange={onChange}
       />
       <TextField
@@ -39,7 +39,7 @@ export const AddClassForm = ({
         required
         value={values?.code}
         name="code"
-        label="Kode Kelas"
+        label="Kode Mata Kuliah"
         onChange={onChange}
       />
     </Box>
