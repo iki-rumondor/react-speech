@@ -34,6 +34,7 @@ import { AssignmentTeacher } from "./pages/teacher/Assignment";
 import { AssignmentStudent } from "./pages/student/Assignment";
 import { AdminMasterClass } from "./pages/admin/master/classes/Index";
 import { MasterSubjects } from "./pages/admin/master/subjects/Index";
+import { Notification } from "./pages/student/Notification";
 
 export const Router = () => {
   return (
@@ -72,6 +73,7 @@ export const Router = () => {
             <Route path="/student/notes" element={<StudentNotes />} />
             <Route path="/student/materials" element={<StudentMaterials />} />
             <Route path="/student/assignments" element={<AssignmentStudent />} />
+            <Route path="/student/notifications" element={<Notification />} />
           </Route>
           <Route path="/books/:file_name" element={<BookView />} />
           <Route path="/videos/:uuid" element={<VideoPages />} />

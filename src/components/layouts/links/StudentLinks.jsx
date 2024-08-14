@@ -3,6 +3,7 @@ import {
   Dashboard,
   Logout,
   Notes,
+  NotificationAdd,
   RequestPage,
   VerifiedUser,
 } from "@mui/icons-material";
@@ -14,6 +15,11 @@ export const StudentLinks = () => {
   const { pathname } = useLocation();
   const links = [
     { name: "Dashboard", to: "/student/dashboard", icon: <Dashboard /> },
+    {
+      name: "Notifikasi",
+      to: "/student/notifications",
+      icon: <NotificationAdd />,
+    },
     {
       name: "Daftar Kelas",
       to: "/classes",
