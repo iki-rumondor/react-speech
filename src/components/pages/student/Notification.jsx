@@ -9,7 +9,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { fetchAPI } from "../../../utils/Fetching";
+import { fetchAPI, postAPI } from "../../../utils/Fetching";
 import { useLoading } from "../../../context/LoadingContext";
 import toast from "react-hot-toast";
 import { NotificationsRounded } from "@mui/icons-material";
@@ -23,6 +23,8 @@ export const Notification = () => {
     try {
       setIsLoading(true);
       const res = await fetchAPI(`/notifications`);
+      console.log(res.data);
+
       setNotifications(res.data);
     } catch (error) {
       toast.error(error.message);
@@ -31,17 +33,44 @@ export const Notification = () => {
     }
   };
 
+  const handleReadNotification = async () => {
+    try {
+      const data = notifications.map((item) => {
+        console.log(item);
+        return {
+          notification_uuid: item.uuid,
+        };
+      });
+      console.log(data);
+
+      await postAPI(`/notifications/read`, "POST", data);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     handleLoad();
   }, []);
 
+  useEffect(() => {
+    notifications && handleReadNotification();
+  }, [notifications]);
+
   return (
     <DashboardLayout name={"Notifikasi"}>
       {notifications && (
-        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+        <List sx={{ width: "100%" }}>
           {notifications.map((item, index, row) => (
-            <>
-              <ListItem key={index} alignItems="flex-start">
+            <div key={index}>
+              <ListItem
+                alignItems="flex-start"
+                sx={
+                  item.is_read
+                    ? { backgroundColor: "whitesmoke" }
+                    : { backgroundColor: "white" }
+                }
+              >
                 <ListItemAvatar>
                   <Avatar>
                     <NotificationsRounded />
@@ -65,7 +94,7 @@ export const Notification = () => {
                 />
               </ListItem>
               {index + 1 != row.length && <Divider component="li" />}
-            </>
+            </div>
           ))}
         </List>
       )}

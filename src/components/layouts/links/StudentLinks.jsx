@@ -4,21 +4,56 @@ import {
   Logout,
   Notes,
   NotificationAdd,
+  NotificationsRounded,
   RequestPage,
   VerifiedUser,
 } from "@mui/icons-material";
-import { Divider, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Badge,
+  Divider,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { ListItemsDropdown } from "../items/ListItems";
+import { useEffect, useState } from "react";
+import { useLoading } from "../../../context/LoadingContext";
+import toast from "react-hot-toast";
+import { fetchAPI } from "../../../utils/Fetching";
 
 export const StudentLinks = () => {
+  const [data, setData] = useState(null);
+  const { setIsLoading } = useLoading();
+
+  const handleLoad = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetchAPI(`/informations/students`);
+      console.log(res.data);
+
+      setData(res.data);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleLoad();
+  }, []);
   const { pathname } = useLocation();
   const links = [
     { name: "Dashboard", to: "/student/dashboard", icon: <Dashboard /> },
     {
       name: "Notifikasi",
       to: "/student/notifications",
-      icon: <NotificationAdd />,
+      icon: (
+        <Badge badgeContent={data?.unread_notification} color="primary">
+          <NotificationsRounded color="action" />
+        </Badge>
+      ),
     },
     {
       name: "Daftar Kelas",
