@@ -3,6 +3,7 @@ import { DashboardLayout } from "../../layouts/DashboardLayout";
 import {
   Avatar,
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
@@ -23,9 +24,21 @@ export const Notification = () => {
     try {
       setIsLoading(true);
       const res = await fetchAPI(`/notifications`);
-      console.log(res.data);
+      const notifications =
+        res.data &&
+        res.data.map((item) => {
+          var link = `/student/assignments?class_uuid=${item.class.uuid}`;
+          if (item.title == "Materi Baru") {
+            link = `/student/materials?class_uuid=${item.class.uuid}`;
+          }
+          return {
+            ...item,
+            link: link,
+          };
+        });
+      console.log(notifications);
 
-      setNotifications(res.data);
+      setNotifications(notifications);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -36,13 +49,10 @@ export const Notification = () => {
   const handleReadNotification = async () => {
     try {
       const data = notifications.map((item) => {
-        console.log(item);
         return {
           notification_uuid: item.uuid,
         };
       });
-      console.log(data);
-
       await postAPI(`/notifications/read`, "POST", data);
     } catch (error) {
       toast.error(error.message);
@@ -73,7 +83,9 @@ export const Notification = () => {
               >
                 <ListItemAvatar>
                   <Avatar>
-                    <NotificationsRounded />
+                    <IconButton href={item.link}>
+                      <NotificationsRounded />
+                    </IconButton>
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText

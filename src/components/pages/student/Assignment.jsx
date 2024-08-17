@@ -20,6 +20,7 @@ import { BootsrapBadge } from "../../layouts/badges/BootsrapBadge";
 import UploadFileInput from "../../layouts/input/UploadFileInput";
 import FullScreenDialog from "../../layouts/dialog/FullScreenDialog";
 import { getBackendUrl } from "../../../utils/Helpers";
+import { useLocation } from "react-router-dom";
 
 const convertToMB = (bytes) => {
   const size = (bytes / (1024 * 1024)).toFixed(2);
@@ -28,9 +29,13 @@ const convertToMB = (bytes) => {
 
 export const AssignmentStudent = () => {
   const { setIsLoading, setIsSuccess, isSuccess } = useLoading();
-  const { classSelected } = useUtils();
+  const { setClassSelected, classSelected } = useUtils();
 
   const [assignments, setAssignments] = useState(null);
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const classUuid = queryParams.get("class_uuid");
 
   const [assignmentID, setAssignmentID] = useState(null);
   const [open, setOpen] = useState(false);
@@ -48,7 +53,6 @@ export const AssignmentStudent = () => {
         `/assignments/students/classes/${classSelected}`
       );
       setAssignments(res.data);
-      console.log(res.data);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -90,6 +94,14 @@ export const AssignmentStudent = () => {
       toast.error(error.message);
     }
   };
+
+  useEffect(() => {
+    if (classUuid == null) {
+      setClassSelected("");
+    } else {
+      setClassSelected(classUuid);
+    }
+  }, []);
 
   useEffect(() => {
     classSelected && handleLoad();
