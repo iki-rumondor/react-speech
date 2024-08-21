@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "../../layouts/DashboardLayout";
-import { Grid } from "@mui/material";
-import { Book, Close, Groups, LibraryBooks, NotAccessible, People, PersonOff, School, ShoppingBag, Verified, VideoCameraBack, X } from "@mui/icons-material";
+import { Box, Grid } from "@mui/material";
+import {
+  Book,
+  Close,
+  Groups,
+  LibraryBooks,
+  NotAccessible,
+  People,
+  PersonOff,
+  School,
+  ShoppingBag,
+  Verified,
+  VideoCameraBack,
+  X,
+} from "@mui/icons-material";
 import { DashboardCard } from "../../layouts/cards/DashboardCard";
 import { fetchAPI } from "../../../utils/Fetching";
 import toast from "react-hot-toast";
@@ -28,20 +41,24 @@ export const StudentDashboard = () => {
   }, []);
 
   return (
-    <DashboardLayout name={"Selamat Datang Mahasiswa"}>
+    <DashboardLayout
+      name={`Selamat Datang ${data?.student?.name ?? "Mahasiswa"} (${
+        data?.student?.nim
+      })`}
+    >
       <Grid container spacing={2}>
         <Grid item md={6} xs={12}>
           <DashboardCard
-            icon={<Verified style={{ fontSize: 50, color: "#799351" }} />}
-            title={data?.jumlah_kelas_verified}
-            subtitle={"Jumlah Kelas Disetujui"}
+            icon={<Groups style={{ fontSize: 50, color: "#FFC55A" }} />}
+            title={data?.jumlah_materi}
+            subtitle={"Jumlah Materi"}
           />
         </Grid>
         <Grid item md={6} xs={12}>
           <DashboardCard
-            icon={<Close style={{ fontSize: 50, color: "#EE4E4E" }} />}
-            title={data?.jumlah_kelas_not}
-            subtitle={"Jumlah Kelas Belum Disetujui"}
+            icon={<Book style={{ fontSize: 50, color: "#EE4E4E" }} />}
+            title={data?.jumlah_tugas}
+            subtitle={"Jumlah Tugas"}
           />
         </Grid>
       </Grid>

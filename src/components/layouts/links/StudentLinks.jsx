@@ -30,8 +30,6 @@ export const StudentLinks = () => {
     try {
       setIsLoading(true);
       const res = await fetchAPI(`/informations/students`);
-      console.log(res.data);
-
       setData(res.data);
     } catch (error) {
       toast.error(error.message);
