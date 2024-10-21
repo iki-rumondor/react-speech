@@ -11,6 +11,7 @@ import {
   DialogTitle,
   Fab,
   Paper,
+  Popover,
   Table,
   TableBody,
   TableCell,
@@ -25,9 +26,10 @@ import FullScreenDialog from "../../../layouts/dialog/FullScreenDialog";
 import { useLoading } from "../../../../context/LoadingContext";
 import { convertToMB } from "../../../../utils/Helpers";
 import UploadFileInput from "../../../layouts/input/UploadFileInput";
-import { fetchAPI, postFile } from "../../../../utils/Fetching";
+import { fetchAPI, postAPI, postFile } from "../../../../utils/Fetching";
 import toast from "react-hot-toast";
 import MasterTeacherTable from "../../../layouts/tables/MasterTeacherTable";
+import CreateTeacherDialog from "./_internal/components/create-teacher-dialog";
 
 const fabStyle = {
   position: "absolute",
@@ -37,6 +39,12 @@ const fabStyle = {
 
 export const MasterTeacher = () => {
   const { isSuccess, setIsLoading, setIsSuccess } = useLoading();
+  const [values, setValues] = useState({
+    department_uuid: "",
+    name: "",
+    nidn: "",
+  });
+
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [failedData, setFailedData] = useState(false);
@@ -92,7 +100,20 @@ export const MasterTeacher = () => {
       setOpenDialog(true);
     }
   };
-  
+
+  const handleAddTeacher = async () => {
+    try {
+      setIsLoading(true);
+      setIsSuccess(false);
+      const res = await postAPI(`/teachers`, "POST", values);
+      setIsSuccess(true);
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     handleLoad();
@@ -104,6 +125,11 @@ export const MasterTeacher = () => {
         <Add />
       </Fab>
       <Container>
+        <CreateTeacherDialog
+          values={values}
+          setValues={setValues}
+          handleSubmit={handleAddTeacher}
+        />
         <Box>{data && <MasterTeacherTable data={data} />}</Box>
       </Container>
       <FullScreenDialog
@@ -190,7 +216,6 @@ export const MasterTeacher = () => {
           <Button onClick={() => setOpenDialog(false)}>Keluar</Button>
         </DialogActions>
       </Dialog>
-      
     </DashboardLayout>
   );
 };
