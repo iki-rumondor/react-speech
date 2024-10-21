@@ -1,14 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { DashboardLayout } from "../../../layouts/DashboardLayout";
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Fab,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { Add } from "@mui/icons-material";
 import FullScreenDialog from "../../../layouts/dialog/FullScreenDialog";
 import StudentTable from "../../../layouts/tables/StudentTable";
 import { useLoading } from "../../../../context/LoadingContext";
 import toast from "react-hot-toast";
-import { fetchAPI, postFile } from "../../../../utils/Fetching";
+import { fetchAPI, postAPI, postFile } from "../../../../utils/Fetching";
 import UploadFileInput from "../../../layouts/input/UploadFileInput";
 import { convertToMB } from "../../../../utils/Helpers";
+import CreateStudentDialog from "./_internal/components/create-student-dialog";
 
 const fabStyle = {
   position: "absolute",
@@ -18,6 +37,11 @@ const fabStyle = {
 
 export const MasterStudent = () => {
   const { isSuccess, setIsLoading, setIsSuccess } = useLoading();
+  const [values, setValues] = useState({
+    name: "",
+    nim: "",
+  });
+
   const [data, setData] = useState(null);
   const [file, setFile] = useState(null);
   const [openCreate, setOpenCreate] = useState(false);
@@ -64,6 +88,20 @@ export const MasterStudent = () => {
     handleLoad();
   }, [isSuccess]);
 
+  const handleAddStudent = async () => {
+    try {
+      setIsLoading(true);
+      setIsSuccess(false);
+      const res = await postAPI(`/students`, "POST", values);
+      setIsSuccess(true);
+      toast.success(res.message);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <DashboardLayout name={"Manajemen Mahasiswa"}>
       <Fab
@@ -77,6 +115,11 @@ export const MasterStudent = () => {
         <Add />
       </Fab>
       <Container>
+        <CreateStudentDialog
+          values={values}
+          setValues={setValues}
+          handleSubmit={handleAddStudent}
+        />
         <Box>{data && <StudentTable data={data} />}</Box>
       </Container>
       <FullScreenDialog
