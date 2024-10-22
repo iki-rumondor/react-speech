@@ -1,4 +1,11 @@
-import { Dashboard, FileCopy, Logout, Subject, VerifiedUser } from "@mui/icons-material";
+import {
+  Dashboard,
+  FileCopy,
+  Logout,
+  Notifications,
+  Subject,
+  VerifiedUser,
+} from "@mui/icons-material";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
@@ -6,6 +13,11 @@ export const AdminLinks = () => {
   const { pathname } = useLocation();
   const links = [
     { name: "Dashboard", to: "/admin/dashboard", icon: <Dashboard /> },
+    {
+      name: "Notifikasi",
+      to: "/admin/notifications",
+      icon: <Notifications />,
+    },
     {
       name: "Program Studi",
       to: "/admin/master/prodi",

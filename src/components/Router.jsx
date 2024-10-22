@@ -35,6 +35,7 @@ import { AssignmentStudent } from "./pages/student/Assignment";
 import { AdminMasterClass } from "./pages/admin/master/classes/Index";
 import { MasterSubjects } from "./pages/admin/master/subjects/Index";
 import { Notification } from "./pages/student/Notification";
+import { AdminNotification } from "./pages/admin/Notification";
 
 export const Router = () => {
   return (
@@ -44,6 +45,7 @@ export const Router = () => {
           <Route element={<RoleAuth name={"ADMIN"} />}>
             <Route path="/admin/dashboard" Component={AdminDashboard} />
             <Route path="/admin/master/prodi" element={<MasterDepartment />} />
+            <Route path="/admin/notifications" element={<AdminNotification />} />
             <Route path="/admin/master/teacher" element={<MasterTeacher />} />
             <Route path="/admin/master/students" element={<MasterStudent />} />
             <Route path="/admin/master/classes" element={<AdminMasterClass />} />
